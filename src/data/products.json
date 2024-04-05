@@ -1,0 +1,7 @@
+[
+    {"title":"Harry Potter","description":"Libro de fantasia","price":5000,"stock":5,"code":"H123", "category": "Fantasy", "thumbnail":[],"id":"dd48a2c2ab28e5b1c97c", "img": "harrypotterylapiedrafilosofal.jpg"},
+{"title":"Carrie","description":"Libro de terror","price":8000,"stock":8,"code":"C123", "category": "Terror", "thumbnail":[],"id":"7a451c818bd5616082d5"},
+{"title":"1Q84","description":"Libro de Murakami","price":10000,"stock":18,"code":"Q123", "category": "Fantasy", "thumbnail":[],"id":"e6cfc823fc975f059c0c"},
+{"title":"Las cronicas de Narnia","description":"Libro de fantasia","price":14000,"stock":17, "code":"N123", "category": "Fantasy", "thumbnail":[],"id":"84607a182406383f4f9a"},
+{"title":"Tokio Blues","description":"Libro de romance","price":15000,"stock":10,"code":"TB123", "category": "Romance", "thumbnail":[],"id":"48243fd019ca51620522"}
+]
