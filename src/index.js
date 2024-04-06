@@ -39,7 +39,7 @@ const io = new Server(server);
 // Connection Data Base
 mongoose
   .connect(
-    'mongodb+srv://jorgelinamariano01:jorgelinacoderhouse@cluster0.sxghmkf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+    'mongodb+srv://jorgelinamariano01:@cluster0.sxghmkf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
   )
   .then(() => console.log('DB is connected'))
   .catch((e) => console.log(e));
@@ -54,7 +54,7 @@ app.use(
     saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl:
-        'mongodb+srv://jorgelinamariano01:jorgelinacoderhouse@cluster0.sxghmkf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+        'mongodb+srv://jorgelinamariano01:@cluster0.sxghmkf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
       // tiempo de vida de la sesion en segundos, podes poner 60*60 o 10000:
       ttl: 60 * 60,
     }),
@@ -96,6 +96,8 @@ app.get('/deleteCookie', (req, res) => {
 // Session Routes
 // Guardo sesiones de mi usuario
 app.get('/session', (req, res) => {
+  console.log(req.session);
+
   if (req.session.counter) {
     req.session.counter++;
     res.send(`Sos el usuario Nº ${req.session.counter} en ingresar a la web`);

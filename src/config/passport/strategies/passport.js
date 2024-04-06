@@ -1,5 +1,7 @@
 import local from 'passport-local';
 import passport from 'passport';
+import GithubStrategy from 'passport-github2';
+import crypto from 'crypto';
 import { userModel } from '../../../models/user.js';
 import { createHash, validatePassword } from '../../../utils/bcrypt.js';
 
@@ -76,6 +78,50 @@ const initializePassport = () => {
           }
         } catch (e) {
           return done(e);
+        }
+      }
+    )
+  );
+
+  // Autenticacion con GitHub
+  passport.use(
+    'github',
+    new GithubStrategy(
+      {
+        // Se consulta por:
+        clientID: ' ',
+        clientSecret: ' ',
+        callbackURL: 'http://localhost:8000/api/session/githubSession',
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          console.log(accessToken);
+          console.log(refreshToken);
+          const user = await userModel
+            .findOne({ email: profile._json.email })
+            .lean();
+
+          // Si el usuario existe y la contrasenia es valida, ingresa
+          if (user) {
+            done(null, user);
+          } else {
+            // Guardar la contrasenia random
+            const randomNumber = crypto.randomUUID();
+            console.log(profile._json);
+
+            // Crear el usuario si no estaba ya
+            const userCreated = await userModel.create({
+              first_name: profile._json.name,
+              last_name: ' ',
+              email: profile._json.email,
+              age: 18,
+              password: createHash(`${profile._json.name}`),
+            });
+
+            return done(null, userCreated);
+          }
+        } catch (error) {
+          return done(error);
         }
       }
     )

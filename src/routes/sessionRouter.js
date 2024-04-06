@@ -11,12 +11,11 @@ sessionRouter.get(
     try {
       if (!req.user) {
         return res.status(401).send('Usuario o contrasenia no validos');
-      } else {
-        req.session.user = {
-          email: req.user.email,
-          first_name: req.user.first_name,
-        };
       }
+      req.session.user = {
+        email: req.user.email,
+        first_name: req.user.first_name,
+      };
       res.status(200).send('Usuario logueado con exito');
     } catch (e) {
       res.status(500).send('Error al loguear usuario');
@@ -32,12 +31,33 @@ sessionRouter.post(
     try {
       if (!req.user) {
         return res.status(400).send('Usuario ya existe en la aplicacion');
-      } else {
-        res.status(200).send('Usuario creado correctamente');
       }
+      res.status(200).send('Usuario creado correctamente');
     } catch (e) {
       res.status(500).send('Error al registrar usuario');
     }
+  }
+);
+
+// Registrar un usuario con estrategia de terceros: GitHub
+sessionRouter.get(
+  '/github',
+  passport.authenticate('github', { scope: ['user:email'] }),
+  async (req, res) => {
+    r;
+  }
+);
+
+sessionRouter.get(
+  '/githubSession',
+  passport.authenticate('github'),
+  async (req, res) => {
+    console.log(req);
+    req.session.user = {
+      email: req.user.email,
+      first_name: req.user.name,
+    };
+    res.redirect('/');
   }
 );
 
