@@ -4,6 +4,7 @@ import GithubStrategy from 'passport-github2';
 import crypto from 'crypto';
 import { userModel } from '../../../models/user.js';
 import { createHash, validatePassword } from '../../../utils/bcrypt.js';
+import { strategyJWT } from './jwtStrategy.js';
 
 // Passport con Middleware
 const localStrategy = local.Strategy;
@@ -83,6 +84,7 @@ const initializePassport = () => {
     )
   );
 
+  /* 
   // Autenticacion con GitHub
   passport.use(
     'github',
@@ -126,6 +128,9 @@ const initializePassport = () => {
       }
     )
   );
+  */
+
+  passport.use('jwt', strategyJWT);
 };
 
 export default initializePassport;

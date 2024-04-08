@@ -71,4 +71,13 @@ sessionRouter.get('/logout', (req, res) => {
   });
 });
 
+// Iniciar sesion utilizando la estrategie de JWT
+sessionRouter.get(
+  '/testJWT',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    res.status(200).send(req.user);
+  }
+);
+
 export default sessionRouter;
