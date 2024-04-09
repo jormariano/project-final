@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import productModel from '../models/product.js';
+import {
+  getProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from '../controllers/productsController.js';
 
 const productsRouter = Router();
 
@@ -9,33 +15,7 @@ productsRouter.get('/', async (req, res) => {
     // limit entre {} porque puede existir mas de un elemento para buscar. http://localhost:8000/products?limit=2
     const { limit, pages, filter, ord } = req.query;
 
-    // Puede modificarse el metodo a filtrar por status o category
-    let metFilter;
-
-    // Si la pagina enviada (pages) es distinta de undefined se consulta por pages, sino por defecto consulto por 1
-    const page = pages != undefined ? pages : 1;
-
-    const limi = limit != undefined ? limit : 10;
-
-    // filtramos por status(disponibilidad) y sino por categoria
-    if (filter == 'true' || filter == 'false') {
-      metFilter = 'status';
-    } else {
-      if (filter !== undefined) metFilter = 'category';
-    }
-
-    const query = metFilter != undefined ? { [metFilter]: filter } : {};
-
-    // Consulto por el metodo de ordenamiento: http://localhost:8000/api/products?&ord=desc
-    const ordQuery = ord !== undefined ? { price: ord } : {};
-
-    // .paginate({metodo de ordenamiento}, {limite}, {page}); Asi decis que se filtra por eso:
-    // Se filtra aca porque puede filtrar por status o por category
-    const prods = await productModel.paginate(query, {
-      limit: limi,
-      pages: page,
-      sort: ordQuery,
-    });
+    const prods = await getProducts(limit, pages, filter, ord);
 
     // la peticion fue correcta
     res.status(200).send(prods);
@@ -52,8 +32,8 @@ productsRouter.get('/:pid', async (req, res) => {
   try {
     const idProduct = req.params.pid; //Todo dato que se consulta desde un parametro es un string
 
-    // Cambie productManager.getProductById(idProduct); por:
-    const prod = await productModel.findById(idProduct);
+    // Llamo al controlador
+    const prod = await getProduct(idProduct);
 
     if (prod) res.status(200).send(prod);
     else res.status(404).send('Producto no existe');
@@ -70,8 +50,7 @@ productsRouter.post('/', async (req, res) => {
     // todo dato que se consulta desde un parametro es un string, si es un numero hay que parsearlo
     const product = req.body;
 
-    // Cambie productManager.addProduct(product); por:
-    const message = await productModel.create(product);
+    const message = await createProduct(product);
 
     res.status(201).send(message);
   } catch (error) {
@@ -86,11 +65,8 @@ productsRouter.put('/:pid', async (req, res) => {
   try {
     // todo dato que se consulta desde un parametro es un string, si es un numero hay que parsearlo
     const idProduct = req.params.pid;
-    const updateProduct = req.body;
-    const product = await productModel.findByIdAndUpdate(
-      idProduct,
-      updateProduct
-    );
+    const upProduct = req.body;
+    const product = await updateProduct(idProduct, upProduct);
 
     res.status(200).send(product);
   } catch (error) {
@@ -104,8 +80,7 @@ productsRouter.put('/:pid', async (req, res) => {
 productsRouter.delete('/:pid', async (req, res) => {
   try {
     const idProduct = req.params.pid;
-    const message = await productModel.findByIdAndDelete(idProduct);
-
+    const message = await deleteProduct(idProduct);
     res.status(200).send(message);
   } catch (error) {
     res
