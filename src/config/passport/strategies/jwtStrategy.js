@@ -18,7 +18,7 @@ const jwtOptions = {
 
   // de donde se extrae un token, del Bearer+Token = Token de JWT
   // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: '',
+  secretOrKey: 'jorgelinacoderhouse',
 };
 
 export const strategyJWT = new JwtStrategy(
