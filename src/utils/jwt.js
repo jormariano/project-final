@@ -7,7 +7,9 @@ export const generateToken = (user) => {
         3°: Tiempo de expiracion del token
         * Solo recibe token de su propio Backend, tiene que ser identicos y lo saben por la contrasenia de encriptacion.
   */
-  const token = jwt.sign({ user }, '', { expiresIn: '24h' });
+  const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+    expiresIn: '24h',
+  });
   return token;
 };
 

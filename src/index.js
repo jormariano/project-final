@@ -14,6 +14,7 @@
 
 // Express para creacion del servidor
 import express from 'express';
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { __dirname } from './path.js';
 import { engine } from 'express-handlebars';
@@ -29,6 +30,8 @@ import passport from 'passport';
 // Configuraciones
 const app = express();
 const PORT = 8000;
+// P/ enumerar las variables de entorno
+dotenv.config();
 
 // Server
 const server = app.listen(PORT, () => {
@@ -38,23 +41,20 @@ const io = new Server(server);
 
 // Connection Data Base
 mongoose
-  .connect(
-    'mongodb+srv://jorgelinamariano01:@cluster0.sxghmkf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-  )
+  .connect(process.env.MONGO_DB_URL)
   .then(() => console.log('DB is connected'))
   .catch((e) => console.log(e));
 
 // Middlewares: intermediario que se ejecuta antes de llegar al endpoint. Express no trabaja con json y usa un middleware
 app.use(express.json());
-app.use(cookieParser('ClaveSecreta'));
+app.use(cookieParser(process.env.COOKIES_SECRET));
 app.use(
   session({
-    secret: 'CoderSecret',
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl:
-        'mongodb+srv://jorgelinamariano01:@cluster0.sxghmkf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+      mongoUrl: process.env.MONGO_DB_URL,
       // tiempo de vida de la sesion en segundos, podes poner 60*60 o 10000:
       ttl: 60 * 60,
     }),
