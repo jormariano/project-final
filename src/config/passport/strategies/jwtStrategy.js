@@ -1,5 +1,6 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { userModel } from '../../../models/user.js';
+import varenv from '../../../dotenv.js';
 
 // Solo requerido por usar Postman
 const cookieExtractor = (req) => {
@@ -11,6 +12,8 @@ const cookieExtractor = (req) => {
   return token;
 };
 
+console.log(varenv.jwt_secret);
+
 // Estrategia de JWT, consulto de las cookies
 const jwtOptions = {
   // se consulta desde las cookies porque no tenemos un frontend
@@ -18,7 +21,7 @@ const jwtOptions = {
 
   // de donde se extrae un token, del Bearer+Token = Token de JWT
   // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET,
+  secretOrKey: varenv.jwt_secret,
 };
 
 export const strategyJWT = new JwtStrategy(

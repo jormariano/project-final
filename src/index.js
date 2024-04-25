@@ -14,7 +14,6 @@
 
 // Express para creacion del servidor
 import express from 'express';
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { __dirname } from './path.js';
 import { engine } from 'express-handlebars';
@@ -24,14 +23,13 @@ import indexRouter from './routes/indexRouter.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import initializePassport from './config/passport/strategies/passport.js';
+import initializePassport from './config/passport/passport.js';
 import passport from 'passport';
+import varenv from './dotenv.js';
 
 // Configuraciones
 const app = express();
 const PORT = 8000;
-// P/ enumerar las variables de entorno
-dotenv.config();
 
 // Server
 const server = app.listen(PORT, () => {
@@ -41,20 +39,20 @@ const io = new Server(server);
 
 // Connection Data Base
 mongoose
-  .connect(process.env.MONGO_DB_URL)
+  .connect(varenv.mongo_url)
   .then(() => console.log('DB is connected'))
   .catch((e) => console.log(e));
 
 // Middlewares: intermediario que se ejecuta antes de llegar al endpoint. Express no trabaja con json y usa un middleware
 app.use(express.json());
-app.use(cookieParser(process.env.COOKIES_SECRET));
+app.use(cookieParser(varenv.cookies_secret));
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: varenv.session_secret,
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGO_DB_URL,
+      mongoUrl: varenv.mongo_url,
       // tiempo de vida de la sesion en segundos, podes poner 60*60 o 10000:
       ttl: 60 * 60,
     }),

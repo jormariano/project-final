@@ -2,9 +2,9 @@ import local from 'passport-local';
 import passport from 'passport';
 import GithubStrategy from 'passport-github2';
 import crypto from 'crypto';
-import { userModel } from '../../../models/user.js';
-import { createHash, validatePassword } from '../../../utils/bcrypt.js';
-import { strategyJWT } from './jwtStrategy.js';
+import { userModel } from '../../models/user.js';
+import { createHash, validatePassword } from '../../utils/bcrypt.js';
+import { strategyJWT } from './strategies/jwtStrategy.js';
 
 // Passport con Middleware
 const localStrategy = local.Strategy;

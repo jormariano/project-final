@@ -1,3 +1,4 @@
+import varenv from '../dotenv.js';
 import jwt from 'jsonwebtoken';
 
 export const generateToken = (user) => {
@@ -7,7 +8,7 @@ export const generateToken = (user) => {
         3°: Tiempo de expiracion del token
         * Solo recibe token de su propio Backend, tiene que ser identicos y lo saben por la contrasenia de encriptacion.
   */
-  const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ user }, 'jorgelinacoderhouse', {
     expiresIn: '24h',
   });
   return token;
