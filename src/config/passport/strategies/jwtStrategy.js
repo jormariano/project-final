@@ -12,8 +12,6 @@ const cookieExtractor = (req) => {
   return token;
 };
 
-console.log(varenv.jwt_secret);
-
 // Estrategia de JWT, consulto de las cookies
 const jwtOptions = {
   // se consulta desde las cookies porque no tenemos un frontend

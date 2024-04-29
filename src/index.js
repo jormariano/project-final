@@ -45,19 +45,19 @@ mongoose
 
 // Middlewares: intermediario que se ejecuta antes de llegar al endpoint. Express no trabaja con json y usa un middleware
 app.use(express.json());
-app.use(cookieParser(varenv.cookies_secret));
 app.use(
   session({
     secret: varenv.session_secret,
     resave: true,
-    saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: varenv.mongo_url,
       // tiempo de vida de la sesion en segundos, podes poner 60*60 o 10000:
       ttl: 60 * 60,
     }),
+    saveUninitialized: true,
   })
 );
+app.use(cookieParser(varenv.cookies_secret));
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 // Las vistas de la aplicacion se encuentran en:
