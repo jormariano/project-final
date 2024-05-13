@@ -3,7 +3,7 @@ import cartRouter from './cartRouter.js';
 import chatRouter from './chatRouter.js';
 import userRouter from './userRouter.js';
 import sessionRouter from './sessionRouter.js';
-import upload from '../config/multer.js';
+import multerRouter from './multerRoutes.js';
 import express from 'express';
 import { __dirname } from '../path.js';
 
@@ -25,15 +25,7 @@ indexRouter.use('/api/users', userRouter);
 indexRouter.use('/api/session', sessionRouter);
 
 // Se agrega el middleware entre la ruta('/upload') y el contenido de la ruta((req, res) => {) para subir imagenes
-// .single() es un metodo de multer para enviar solo un elemento a la vez
-indexRouter.post('/upload', upload.single('product'), (req, res) => {
-  try {
-    console.log(req.file);
-    res.status(200).send('Imagen cargada correctamente');
-  } catch (e) {
-    res.status(500).send('Error al cargar imagen');
-  }
-});
+indexRouter.use('/upload', multerRouter);
 
 /*
 

@@ -16,7 +16,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { __dirname } from './path.js';
-import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import messageModel from './models/messages.js';
 import indexRouter from './routes/indexRouter.js';
@@ -58,10 +57,6 @@ app.use(
   })
 );
 app.use(cookieParser(varenv.cookies_secret));
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
-// Las vistas de la aplicacion se encuentran en:
-app.set('views', __dirname + '/views');
 
 // Passport: Sesiones y su inicio
 initializePassport();
