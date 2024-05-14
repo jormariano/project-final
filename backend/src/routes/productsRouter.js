@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import passport from 'passport';
 import {
   getProducts,
   getProduct,
@@ -17,12 +18,24 @@ productsRouter.get('/', getProducts);
 productsRouter.get('/:pid', getProduct);
 
 // POST: Es para crear un nuevo producto
-productsRouter.post('/', createProduct);
+productsRouter.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  createProduct
+);
 
 // PUT: Es para actualizar un producto segun su id
-productsRouter.put('/:pid', updateProduct);
+productsRouter.put(
+  '/:pid',
+  passport.authenticate('jwt', { session: false }),
+  updateProduct
+);
 
 // DELETE: Es para eliminar un producto segun su id
-productsRouter.delete('/:pid', deleteProduct);
+productsRouter.delete(
+  '/:pid',
+  passport.authenticate('jwt', { session: false }),
+  deleteProduct
+);
 
 export default productsRouter;

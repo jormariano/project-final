@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import passport from 'passport';
 import {
   getCart,
   createCart,
@@ -15,7 +16,11 @@ cartRouter.post('/', createCart);
 cartRouter.get('/:cid', getCart);
 
 // Se crea un nuevo producto en el carrito
-cartRouter.post('/:cid/:pid', insertProductCart);
+cartRouter.post(
+  '/:cid/:pid',
+  passport.authenticate('jwt', { session: false }),
+  insertProductCart
+);
 
 cartRouter.post('/:cid/purchase', createTicket);
 

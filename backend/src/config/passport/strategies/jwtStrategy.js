@@ -15,10 +15,11 @@ const cookieExtractor = (req) => {
 // Estrategia de JWT, consulto de las cookies
 const jwtOptions = {
   // se consulta desde las cookies porque no tenemos un frontend
-  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+  // jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
 
   // de donde se extrae un token, del Bearer+Token = Token de JWT
-  // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+
   secretOrKey: varenv.jwt_secret,
 };
 

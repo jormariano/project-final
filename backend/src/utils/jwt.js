@@ -1,4 +1,3 @@
-import varenv from '../dotenv.js';
 import jwt from 'jsonwebtoken';
 
 export const generateToken = (user) => {
@@ -22,7 +21,7 @@ console.log(
     age: 30,
     email: 'solesjor@coder.com',
     password: '$2b$12$OYcR6rO4Uy1fso7XzGs9Cuz/03Gu6UAkbMIFqovJxtLMY1oeZFdQy',
-    rol: 'User',
+    rol: 'Admin',
     __v: 0,
   })
 );

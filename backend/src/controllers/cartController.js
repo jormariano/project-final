@@ -1,5 +1,6 @@
 import cartModel from '../models/cart.js';
 import productModel from '../models/product.js';
+import { userModel } from '../models/user.js';
 
 export const getCart = async (req, res) => {
   try {
@@ -26,24 +27,28 @@ export const createCart = async (req, res) => {
 
 export const insertProductCart = async (req, res) => {
   try {
-    const cartId = req.params.cid;
-    const productId = req.params.pid;
-    const { quantity } = req.body;
-    const cart = await cartModel.findById(cartId);
+    if (req.user.rol == 'User') {
+      const cartId = req.params.cid;
+      const productId = req.params.pid;
+      const { quantity } = req.body;
+      const cart = await cartModel.findById(cartId);
 
-    const index = cart.products.findIndex(
-      // id_prod se solicita en cart.js como id de referencia p/ conectar cart con el producto
-      (product) => product.id_prod == productId
-    );
+      const index = cart.products.findIndex(
+        // id_prod se solicita en cart.js como id de referencia p/ conectar cart con el producto
+        (product) => product.id_prod == productId
+      );
 
-    if (index != -1) {
-      cart.products[index].quantity = quantity;
+      if (index != -1) {
+        cart.products[index].quantity = quantity;
+      } else {
+        cart.products.push({ id_prod: productId, quantity: quantity });
+      }
+
+      const message = await cartModel.findByIdAndUpdate(cartId, cart);
+      res.status(200).send(message);
     } else {
-      cart.products.push({ id_prod: productId, quantity: quantity });
+      res.status(403).send('Usuario no autorizado');
     }
-
-    const message = await cartModel.findByIdAndUpdate(cartId, cart);
-    res.status(200).send(message);
   } catch (error) {
     res
       .status(500)

@@ -45,8 +45,6 @@ export const getProduct = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  console.log(req.user);
-  console.log(req.user.rol);
   try {
     if (req.user.rol == 'Admin') {
       const product = req.body;
