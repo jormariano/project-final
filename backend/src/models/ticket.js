@@ -17,7 +17,7 @@ const ticketSchema = new Schema({
     type: String,
     required: true,
   },
-  // Muestra un detalle del producto en el ticket:
+  // Muestra un detalle del producto en el ticket/factura:
   products: [
     {
       type: Schema.Types.ObjectId,
