@@ -1,5 +1,6 @@
 import cartModel from '../models/cart.js';
 import productModel from '../models/product.js';
+import ticketModel from '../models/ticket.js';
 import { userModel } from '../models/user.js';
 
 export const getCart = async (req, res) => {
@@ -70,7 +71,22 @@ export const createTicket = async (req, res) => {
         }
       });
       if (prodSinStock.length == 0) {
+        // Calcular la cantidad total
+        const totalPrice = cart.products.reduce(
+          (a, b) => a.id_prod.price * a.quantity + b.id_prod.price * b.quantity,
+          0
+        );
+        console.log(cart.products);
+
         // Finalizar compra
+        const newTicket = await ticketModel.create({
+          code: crypto.randomUUID(),
+          purchaser: req.user.email,
+          amount: totalPrice,
+          products: cart.products,
+        });
+
+        res.status(200).send(newTicket);
       } else {
         // Retornar 'Producto sin stock'
       }
