@@ -10,8 +10,9 @@ import { __dirname } from '../path.js';
 const indexRouter = express.Router();
 
 // Routes
-indexRouter.get('/', (req, res) => {
-  res.status(200).send('Bienvenid@ !');
+indexRouter.get('/saludo', (req, res) => {
+  // Se pasa un objeto json y no una simple cadena de texto para visualizarlo desde el Frontend con index.html
+  res.status(200).send({ mensaje: 'Bienvenida Jor!' });
 });
 indexRouter.use('/public', express.static(__dirname + '/public'));
 indexRouter.use(

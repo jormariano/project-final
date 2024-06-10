@@ -25,10 +25,23 @@ import MongoStore from 'connect-mongo';
 import initializePassport from './config/passport/passport.js';
 import passport from 'passport';
 import varenv from './dotenv.js';
+import cors from 'cors';
 
 // Configuraciones
 const app = express();
 const PORT = 8000;
+
+// CORS - Permite todas las rutas de ejecucion
+// app.use(cors());
+
+// CORS - Permite solo las rutas autorizadas para ejecutar el codigo
+const corsOptions = {
+  origin: 'http://127.0.0.1:5500',
+  // El metodo GET es para todo, no se puede restringir
+  methods: ['GET', 'POST', 'UPDATE', 'DELETE'],
+};
+
+app.use(cors(corsOptions));
 
 // Server
 const server = app.listen(PORT, () => {
