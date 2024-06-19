@@ -22,7 +22,11 @@ cartRouter.post(
   insertProductCart
 );
 
-cartRouter.post('/:cid/purchase', createTicket);
+cartRouter.get(
+  '/purchase/:cid',
+  passport.authenticate('jwt', { session: false }),
+  createTicket
+);
 
 // DELETE: Es para eliminar un producto segun su id en el carrito
 cartRouter.delete('/:cid/products/:pid', async (req, res) => {

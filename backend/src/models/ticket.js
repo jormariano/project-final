@@ -18,12 +18,9 @@ const ticketSchema = new Schema({
     required: true,
   },
   // Muestra un detalle del producto en el ticket/factura:
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'products',
-    },
-  ],
+  products: {
+    type: Object,
+  },
 });
 
 const ticketModel = model('ticket', ticketSchema);

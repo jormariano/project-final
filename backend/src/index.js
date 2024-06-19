@@ -26,6 +26,7 @@ import initializePassport from './config/passport/passport.js';
 import passport from 'passport';
 import varenv from './dotenv.js';
 import cors from 'cors';
+import { addLogger } from './utils/logger.js';
 
 // Configuraciones
 const app = express();
@@ -70,6 +71,13 @@ app.use(
   })
 );
 app.use(cookieParser(varenv.cookies_secret));
+app.use(addLogger);
+
+// Prueba de logger:
+app.get('/', (req, res) => {
+  res.logger.warning('ESTO ES UN WARNING');
+  res.send('Hola');
+});
 
 // Passport: Sesiones y su inicio
 initializePassport();
