@@ -3,6 +3,7 @@ import productModel from '../models/product.js';
 import ticketModel from '../models/ticket.js';
 import { userModel } from '../models/user.js';
 
+// Ver que hay en el Carrito
 export const getCart = async (req, res) => {
   try {
     const cartId = req.params.cid;
@@ -15,6 +16,7 @@ export const getCart = async (req, res) => {
   }
 };
 
+// Crear un carrito de compras
 export const createCart = async (req, res) => {
   try {
     const message = await cartModel.create({ products: [] });
@@ -26,6 +28,7 @@ export const createCart = async (req, res) => {
   }
 };
 
+// Agregar productos al carrito
 export const insertProductCart = async (req, res) => {
   try {
     if (req.user.rol == 'Admin') {
@@ -57,6 +60,7 @@ export const insertProductCart = async (req, res) => {
   }
 };
 
+// Crear ticket de la compra
 export const createTicket = async (req, res) => {
   try {
     const cartId = req.params.cid;
@@ -87,6 +91,8 @@ export const createTicket = async (req, res) => {
           amount: 5,
           products: cart.products,
         });
+
+        // Usuario premium descontar un 15%: if(user.rol == "premium") { totalPrice - 15%}
 
         // Descontar stock de cada uno de los productos
         cart.products.forEach(async (prod) => {

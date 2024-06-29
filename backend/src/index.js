@@ -12,6 +12,11 @@
  Paso 6: crear .gitignore y agregar node_modules
 */
 
+/* Saber cuantos procesadores tengo:
+import { cpus } from 'os';
+console.log(cpus().length);
+*/
+
 // Express para creacion del servidor
 import express from 'express';
 import mongoose from 'mongoose';
@@ -86,6 +91,7 @@ app.use(passport.session());
 
 // Routes
 app.use('/', indexRouter);
+
 // Routes Cookies
 // Crear/Guardar una cookie
 app.get('/setCookie', (req, res) => {

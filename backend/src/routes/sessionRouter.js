@@ -6,6 +6,8 @@ import {
   sessionGithub,
   testJWT,
   logout,
+  sendEmailPassword,
+  changePassword,
 } from '../controllers/sessionController.js';
 
 const sessionRouter = Router();
@@ -25,24 +27,27 @@ sessionRouter.get(
   }
 );
 
+// Iniciar sesion usando una estrategia de terceros: GitHub
 sessionRouter.get(
   '/githubSession',
   passport.authenticate('github'),
   sessionGithub
 );
 
-sessionRouter.get('/current', passport.authenticate('jwt'), (req, res) => {
-  console.log(req);
-  res.status(200).send('Usuario logueado');
-});
-
-sessionRouter.get('/logout', logout);
-
-// Iniciar sesion utilizando la estrategie de JWT
+// Iniciar sesion utilizando la estrategia de JWT
 sessionRouter.get(
   '/testJWT',
   passport.authenticate('jwt', { session: false }),
   testJWT
 );
+
+// Logout
+sessionRouter.get('/logout', logout);
+
+// Enviar email para restablecer contraseña
+sessionRouter.post('/sendEmailPassword', sendEmailPassword);
+
+// Se genera token para cambiar contraseña
+sessionRouter.post('/reset-password/:token', changePassword);
 
 export default sessionRouter;
