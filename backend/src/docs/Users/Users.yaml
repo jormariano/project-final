@@ -1,0 +1,52 @@
+paths:
+  /api/users/:
+    get:
+      summary: Obtener todos los usuarios de mi Base de datos
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Usuarios obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Error al intentar obtener usuarios
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por MongoDB
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        email:
+          type: String
+          description: Email del usuario
+        password:
+          type: String
+          description: Contraseña del usuario
+        age:
+          type: Number
+          description: Edad del usuario
+        rol:
+          type: String
+          description: Rol del usuario
+      example:
+        _id: ObjectId('535jorgelina')
+        first_name: Jorgelina
+        last_name: Mariano
+        email: jormariano@gmail.com
+        password: QueLindoDia
+        age: 31
+        rol: User

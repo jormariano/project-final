@@ -31,6 +31,8 @@ import initializePassport from './config/passport/passport.js';
 import passport from 'passport';
 import varenv from './dotenv.js';
 import cors from 'cors';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 import { addLogger } from './utils/logger.js';
 
 // Configuraciones
@@ -61,6 +63,20 @@ mongoose
   .then(() => console.log('DB is connected'))
   .catch((e) => console.log(e));
 
+// Documentacion de la app
+const swaggerOptions = {
+  definition: {
+    openapi: '3.1.0',
+    info: {
+      title: 'Documentación de mi aplicación ',
+      description: 'Descripción de documentación',
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+
 // Middlewares: intermediario que se ejecuta antes de llegar al endpoint. Express no trabaja con json y usa un middleware
 app.use(express.json());
 app.use(
@@ -77,6 +93,7 @@ app.use(
 );
 app.use(cookieParser(varenv.cookies_secret));
 app.use(addLogger);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 // Prueba de logger:
 app.get('/', (req, res) => {

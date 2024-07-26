@@ -3,7 +3,7 @@ import cartRouter from './cartRouter.js';
 import chatRouter from './chatRouter.js';
 import userRouter from './userRouter.js';
 import sessionRouter from './sessionRouter.js';
-import multerRouter from './multerRoutes.js';
+import multerRouter from './multerRouter.js';
 import express from 'express';
 import { __dirname } from '../path.js';
 

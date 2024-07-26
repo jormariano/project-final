@@ -1,10 +1,14 @@
 import { Router } from 'express';
-import { getUsers } from '../controllers/userController.js';
+import { getUsers, sendDocuments } from '../controllers/userController.js';
 
 const userRouter = Router();
 
 // Obtenes los usuarios creados
 userRouter.get('/', getUsers);
+
+userRouter.post('/:uid/documents', sendDocuments);
+
+userRouter.post('/imagedocs');
 
 /*
 // Crear un usuario

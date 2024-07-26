@@ -69,10 +69,13 @@ const initializePassport = () => {
       async (username, password, done) => {
         try {
           // Busca el usuario en la DB
-          const user = await userModel.findOne({ email: username }).lean();
+          const user = await userModel.findOne({ email: username });
 
           // Si usuario y contraseña existen, se devuelve el login iniciado
           if (user && validatePassword(password, user.password)) {
+            user.last_connection = new Date();
+            await user.save();
+
             return done(null, user);
           } else {
             return done(null, false);
