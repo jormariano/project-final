@@ -12,7 +12,7 @@ const indexRouter = express.Router();
 // Routes
 indexRouter.get('/saludo', (req, res) => {
   // Se pasa un objeto json y no una simple cadena de texto para visualizarlo desde el Frontend con index.html
-  res.status(200).send({ mensaje: 'Bienvenida Jor!' });
+  res.status(200).send({ mensaje: 'Bienvenid@!' });
 });
 indexRouter.use('/public', express.static(__dirname + '/public'));
 indexRouter.use(
